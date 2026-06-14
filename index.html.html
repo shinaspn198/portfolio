@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shinas PN | AI Portfolio</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+html{scroll-behavior:smooth}
+body{background:#020617;color:white;overflow-x:hidden}
+
+/* Loading Screen */
+#loader{
+  position:fixed;inset:0;background:#020617;z-index:9999;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+}
+#loader h1{color:#38bdf8;font-size:35px;margin-bottom:20px}
+.loading-bar{width:300px;height:10px;background:#1e293b;border-radius:20px;overflow:hidden}
+.loading-fill{height:100%;width:0;background:#38bdf8;animation:load 3s forwards}
+@keyframes load{to{width:100%}}
+
+/* Cursor Glow */
+.cursor{
+  width:25px;height:25px;border:2px solid #38bdf8;border-radius:50%;
+  position:fixed;pointer-events:none;z-index:9998;box-shadow:0 0 20px #38bdf8;
+}
+
+/* Hero */
+.hero{
+    min-height:250vh;
+    width:100%;
+    position:relative;
+    background-image:url("./ai-avatar-front.png.png");
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+}
+@keyframes heroMove{
+  0%,100%{background-position:center center}
+  50%{background-position:center 45%}
+}
+.hero::after{
+  content:"";position:absolute;inset:0;background:rgba(0,0,0,.15)
+}
+.hero-content{
+  position:absolute;bottom:45px;left:50%;transform:translateX(-50%);
+  z-index:2;display:flex;gap:20px;flex-wrap:wrap;justify-content:center;
+}
+.hero-content button{
+  padding:14px 28px;border:none;border-radius:10px;background:#00c8ff;
+  color:#020617;font-weight:bold;cursor:pointer;box-shadow:0 0 20px #00c8ff;
+}
+.hero-content button:hover{background:white}
+
+/* Subtitle */
+#subtitle{
+  position:absolute;bottom:115px;left:50%;transform:translateX(-50%);
+  z-index:3;background:rgba(2,6,23,.8);border:1px solid #38bdf8;
+  padding:15px 25px;border-radius:14px;max-width:650px;text-align:center;
+  color:#dbeafe;box-shadow:0 0 20px #0ea5e9;
+}
+
+/* Sections */
+.section{
+  margin:25px;padding:45px;background:rgba(15,23,42,.92);
+  border:1px solid #1e40af;border-radius:20px;
+}
+.section h2{
+  color:#38bdf8;font-size:34px;margin-bottom:25px;letter-spacing:3px
+}
+.about{display:flex;gap:50px;align-items:center}
+.about img{
+  width:260px;height:330px;object-fit:cover;border-radius:25px;border:2px solid #38bdf8
+}
+.about p{font-size:18px;line-height:1.8}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:25px}
+.card{
+  padding:25px;border:1px solid #38bdf8;border-radius:18px;
+  background:rgba(2,6,23,.8);transition:.3s
+}
+.card:hover{transform:translateY(-8px);box-shadow:0 0 25px #38bdf8}
+.card h3{margin-bottom:15px}
+.card p{line-height:1.7;color:#cbd5e1}
+.tag{
+  display:inline-block;padding:6px 12px;background:#1e293b;border:1px solid #38bdf8;
+  border-radius:20px;margin:8px 5px 0 0;font-size:13px
+}
+.skill{margin:18px 0}
+.skill-name{display:flex;justify-content:space-between;margin-bottom:8px}
+.bar{width:100%;height:13px;background:#334155;border-radius:20px;overflow:hidden}
+.fill{height:100%;background:linear-gradient(90deg,#2563eb,#38bdf8)}
+.timeline{border-left:3px solid #38bdf8;padding-left:25px}
+.timeline-item{margin:25px 0}
+.timeline-item h3{color:#38bdf8}
+.contact-box{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px}
+.contact{
+  padding:22px;border:1px solid #38bdf8;border-radius:15px;text-align:center;background:#020617
+}
+footer{text-align:center;padding:25px;color:#94a3b8}
+
+/* Terminal */
+.terminal{
+  background:#020617;border:1px solid #38bdf8;border-radius:15px;
+  padding:25px;color:#38bdf8;font-family:monospace;font-size:17px;line-height:1.8;
+}
+
+/* Stats */
+.stats{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:20px
+}
+.stat{
+  text-align:center;padding:25px;border:1px solid #38bdf8;border-radius:15px;background:#020617
+}
+.stat h3{font-size:35px;color:#38bdf8}
+
+/* Reveal Animation */
+.reveal{opacity:0;transform:translateY(40px);transition:1s}
+.reveal.active{opacity:1;transform:translateY(0)}
+
+@media(max-width:800px){
+  .hero{background-size:cover;background-position:center}
+  .hero-content{bottom:25px}
+  #subtitle{bottom:130px;width:90%}
+  .about{flex-direction:column;text-align:center}
+}
+</style>
+</head>
+
+<body>
+
+<div id="loader">
+  <h1>INITIALIZING AI SHINAS...</h1>
+  <div class="loading-bar"><div class="loading-fill"></div></div>
+</div>
+
+<div class="cursor"></div>
+
+<section class="hero" id="home">
+  <div id="subtitle">AI system loading...</div>
+  <div class="hero-content">
+    <button onclick="playIntro()">▶ PLAY INTRO</button>
+    <button onclick="recruiterMode()">🚀 RECRUITER MODE</button>
+    <button onclick="scrollDown()">SKIP INTRO</button>
+  </div>
+</section>
+
+<section class="section about reveal" id="about">
+  <img src="C:\Users\91949\OneDrive\Downloads\Desktop\my works\about_photo.jpg.jpeg" alt="Shinas PN">
+  <div>
+    <h2>ABOUT ME</h2>
+    <p>I'm <b>Shinas PN</b>, a BCA student and aspiring AI Engineer. I am passionate about building intelligent solutions using Machine Learning, Deep Learning, NLP, OCR, and Explainable AI.</p>
+    <br>
+    <p>I enjoy creating real-world AI applications that solve practical problems, especially in fraud detection, automation, data analysis, and smart systems.</p>
+  </div>
+</section>
+
+<section class="section reveal">
+  <h2>AI STATUS</h2>
+  <div class="stats">
+    <div class="stat"><h3 class="count" data-target="3">0</h3><p>Projects</p></div>
+    <div class="stat"><h3 class="count" data-target="6">0</h3><p>Certificates</p></div>
+    <div class="stat"><h3 class="count" data-target="15">0</h3><p>Skills Loaded</p></div>
+    <div class="stat"><h3 class="count" data-target="95">0</h3><p>AI Confidence %</p></div>
+  </div>
+</section>
+
+<section class="section reveal">
+  <h2>AI TERMINAL</h2>
+  <div class="terminal" id="terminal"></div>
+</section>
+
+<section class="section reveal" id="projects">
+  <h2>FEATURED PROJECTS</h2>
+  <div class="cards">
+    <div class="card">
+      <h3>Smart Job & Internship Fraud Detection System</h3>
+      <p>Detects fake job and internship offers using Machine Learning, NLP, OCR, PDF analysis, and Explainable AI.</p>
+      <span class="tag">Python</span><span class="tag">ML</span><span class="tag">OCR</span><span class="tag">XAI</span>
+    </div>
+    <div class="card">
+      <h3>AI-Based Atmospheric Gas Monitoring System</h3>
+      <p>Monitors oxygen and nitrogen levels and detects abnormal atmospheric conditions using AI and IoT sensors.</p>
+      <span class="tag">Python</span><span class="tag">AI</span><span class="tag">IoT</span><span class="tag">Sensors</span>
+    </div>
+    <div class="card">
+      <h3>Home Price Prediction</h3>
+      <p>Predicts house prices using regression models and data preprocessing techniques.</p>
+      <span class="tag">Python</span><span class="tag">Pandas</span><span class="tag">Scikit-learn</span>
+    </div>
+  </div>
+</section>
+
+<section class="section reveal" id="skills">
+  <h2>MY SKILLS</h2>
+  <div class="skill"><div class="skill-name"><span>Python</span><span>90%</span></div><div class="bar"><div class="fill" style="width:90%"></div></div></div>
+  <div class="skill"><div class="skill-name"><span>Machine Learning</span><span>85%</span></div><div class="bar"><div class="fill" style="width:85%"></div></div></div>
+  <div class="skill"><div class="skill-name"><span>Deep Learning</span><span>75%</span></div><div class="bar"><div class="fill" style="width:75%"></div></div></div>
+  <div class="skill"><div class="skill-name"><span>NLP</span><span>80%</span></div><div class="bar"><div class="fill" style="width:80%"></div></div></div>
+  <div class="skill"><div class="skill-name"><span>SQL</span><span>75%</span></div><div class="bar"><div class="fill" style="width:75%"></div></div></div>
+  <div class="skill"><div class="skill-name"><span>HTML CSS JavaScript</span><span>80%</span></div><div class="bar"><div class="fill" style="width:80%"></div></div></div>
+</section>
+
+<section class="section reveal" id="education">
+  <h2>EDUCATION JOURNEY</h2>
+  <div class="timeline">
+    <div class="timeline-item"><h3>2023 - Started BCA</h3><p>Bachelor of Computer Applications with interest in AI.</p></div>
+    <div class="timeline-item"><h3>2024 - Python & Data Science</h3><p>Learned Python, Data Structures, Pandas, NumPy, and Data Analysis.</p></div>
+    <div class="timeline-item"><h3>2025 - AI / ML Projects</h3><p>Started building real-world AI and Machine Learning projects.</p></div>
+    <div class="timeline-item"><h3>2026 - AI Engineer Goal</h3><p>Working towards becoming a skilled AI Engineer.</p></div>
+  </div>
+</section>
+
+<section class="section reveal" id="certificates">
+  <h2>CERTIFICATIONS</h2>
+  <div class="cards">
+    <div class="card"><h3>Python Programming</h3><p>Core Python, OOP, file handling, and project development.</p></div>
+    <div class="card"><h3>Machine Learning A-Z</h3><p>Supervised learning, unsupervised learning, and model evaluation.</p></div>
+    <div class="card"><h3>Data Science & Analytics</h3><p>Data cleaning, visualization, statistics, and insights.</p></div>
+    <div class="card"><h3>SQL</h3><p>Database basics, queries, joins, and data management.</p></div>
+  </div>
+</section>
+
+<section class="section reveal" id="contact">
+  <h2>GET IN TOUCH</h2>
+  <div class="contact-box">
+    <div class="contact"><h3>Email</h3><p>shinaspn958@gmail.com</p></div>
+    <div class="contact"><h3>LinkedIn</h3><p>linkedin.com/in/shinas-pn</p></div>
+    <div class="contact"><h3>GitHub</h3><p>github.com/shinaspn198</p></div>
+    <div class="contact"><h3>Location</h3><p>Kerala, India</p></div>
+  </div>
+</section>
+
+<footer>© 2026 Shinas PN | AI Portfolio</footer>
+
+<script>
+setTimeout(()=>{
+  document.getElementById("loader").style.display="none";
+  playIntro();
+},3000);
+
+const cursor=document.querySelector(".cursor");
+document.addEventListener("mousemove",e=>{
+  cursor.style.left=e.clientX+"px";
+  cursor.style.top=e.clientY+"px";
+});
+
+const introText="Hello Recruiter. I am AI Shinas, the virtual portfolio assistant of Shinas PN. Welcome to his AI powered portfolio. Shinas is a BCA student and aspiring AI Engineer skilled in Python, Machine Learning, Deep Learning, NLP, OCR, SQL, HTML, CSS and JavaScript.";
+
+function playIntro(){
+  document.getElementById("subtitle").innerText=introText;
+  const speech=new SpeechSynthesisUtterance(introText);
+  speech.rate=.9;
+  speech.pitch=1;
+  speech.volume=1;
+  window.speechSynthesis.cancel();
+  window.speechSynthesis.speak(speech);
+}
+
+function scrollDown(){
+  document.getElementById("about").scrollIntoView({behavior:"smooth"});
+}
+
+function recruiterMode(){
+  const text="Recruiter mode activated. Let me guide you through Shinas PN's profile, projects, skills, education and contact details.";
+  document.getElementById("subtitle").innerText=text;
+  const speech=new SpeechSynthesisUtterance(text);
+  window.speechSynthesis.cancel();
+  window.speechSynthesis.speak(speech);
+  setTimeout(()=>document.getElementById("about").scrollIntoView({behavior:"smooth"}),3000);
+}
+
+const reveals=document.querySelectorAll(".reveal");
+window.addEventListener("scroll",()=>{
+  reveals.forEach(sec=>{
+    const top=sec.getBoundingClientRect().top;
+    if(top<window.innerHeight-100){sec.classList.add("active")}
+  });
+});
+
+const counts=document.querySelectorAll(".count");
+counts.forEach(counter=>{
+  let target=+counter.dataset.target;
+  let count=0;
+  let timer=setInterval(()=>{
+    count++;
+    counter.innerText=count;
+    if(count>=target)clearInterval(timer);
+  },40);
+});
+
+const terminalText=[
+"> whoami",
+"Shinas PN",
+"> role",
+"Aspiring AI Engineer",
+"> skills",
+"Python | Machine Learning | NLP | OCR | SQL",
+"> projects",
+"Fraud Detection | Gas Monitoring | Home Price Prediction",
+"> status",
+"Recruiter Mode Ready ✅"
+];
+
+let line=0;
+function typeTerminal(){
+  if(line<terminalText.length){
+    document.getElementById("terminal").innerHTML+=terminalText[line]+"<br>";
+    line++;
+    setTimeout(typeTerminal,600);
+  }
+}
+setTimeout(typeTerminal,3500);
+</script>
+
+</body>
+</html>
